@@ -1,0 +1,125 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Integrated Render Pipeline: ACES + Sharpen + Glints + Layer Fix in CubeVisualization.tsx",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Configure global renderer with NoToneMapping, disable autoClear, set black clear color",
+      "acceptanceCriteria": [
+        "gl.toneMapping is THREE.NoToneMapping after canvas creation",
+        "gl.autoClear is false",
+        "Clear color is #000000 with alpha 1.0",
+        "outputColorSpace remains at default SRGBColorSpace",
+        "No toneMappingExposure assignment present"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Inside the onCreated callback of the Canvas component, configure the WebGLRenderer instance (gl): set gl.toneMapping to THREE.NoToneMapping, gl.autoClear to false, gl.setClearColor(0x000000, 1.0), and gl.setClearAlpha(1.0). Do not modify gl.outputColorSpace or add any toneMappingExposure assignment. This ensures manual control over the render pipeline and prevents automatic tone mapping conflicts with the custom ACES implementation in the composite shader."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Configure UnrealBloomPass with specific intensity, radius, threshold, and conditional luminanceSmoothing",
+      "acceptanceCriteria": [
+        "Bloom pass has intensity 0.8, radius 0.65, threshold 0.1",
+        "luminanceSmoothing is set only when the property exists on the pass"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Update the UnrealBloomPass instantiation to use intensity: 0.8, radius: 0.65, threshold: 0.1. After creating the bloom pass instance, add a feature check: if ('luminanceSmoothing' in bloomPass) { (bloomPass as any).luminanceSmoothing = 0.1; } to conditionally set luminanceSmoothing only when supported by the Three.js version."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Set bloomComposer.renderToScreen false, finalComposer.renderToScreen true, and initialize bloomTexture",
+      "acceptanceCriteria": [
+        "bloomComposer.renderToScreen is false",
+        "finalComposer.renderToScreen is true",
+        "bloomTexture ref is initialized to new THREE.Texture() before first frame"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "After creating the bloomComposer and finalComposer EffectComposer instances, set bloomComposer.renderToScreen = false and finalComposer.renderToScreen = true. Initialize the bloomTexture ref to new THREE.Texture() before the first render frame to prevent crashes when the composite shader attempts to access it before the bloom pass has rendered."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Replace composite shader fragment with full ACES + sharpening + glints implementation and remove HueSaturationPass",
+      "acceptanceCriteria": [
+        "Fragment shader uses NaN-safe resolution division via max(resolution, vec2(1.0))",
+        "Sharpening kernel with strength 0.15 is applied",
+        "Glint highlight is computed with threshold 2.5 and strength 3.0",
+        "ACES tonemapping is applied before final output",
+        "Final gl_FragColor alpha is 1.0",
+        "HueSaturationPass is not present in either composer chain",
+        "CompositePass is the last pass in finalComposer"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Replace the composite shader's fragment code with the integrated render pipeline implementation: (1) Use NaN-safe texel calculation: vec2 texel = 1.0 / max(resolution, vec2(1.0)); (2) Implement a 3x3 sharpening kernel with strength 0.15 by sampling neighboring pixels; (3) Add glint highlight detection by checking if the sharpened luminance exceeds threshold 2.5, then boost by strength 3.0; (4) Include the ACES tone mapping function (vec3 toneMapACES(vec3 color)) using the standard ACES film curve formula; (5) Apply ACES tone mapping to the final color before output; (6) Set gl_FragColor = vec4(mapped, 1.0) with alpha 1.0. Remove any HueSaturationPass from both bloomComposer and finalComposer chains. Ensure the CompositePass is the final pass added to finalComposer."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement robust render loop in useFrame with layer-based rendering, resolution updates, and texture wiring",
+      "acceptanceCriteria": [
+        "No rendering occurs when canvas dimensions are zero",
+        "Bloom pass renders only layer 1 objects",
+        "Final pass renders both layer 0 and layer 1 objects",
+        "Resolution uniform is set per frame in pixel units accounting for DPR",
+        "bloomTexture uniform uses readBuffer.texture for stability"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Rewrite the useFrame callback to implement the layered render pipeline: (1) Guard all rendering inside if (sz.width > 0 && sz.height > 0) to prevent zero-dimension errors; (2) Call renderer.clear(true, true, true) to manually clear all buffers; (3) Set camera.layers.set(1) and render bloomComposerRef.current.render() to capture only bloom-layer objects; (4) Set camera.layers.set(0) then camera.layers.enable(1) to prepare for final render with both layers; (5) Update the compositePass resolution uniform using sz.width * viewport.dpr and sz.height * viewport.dpr to account for device pixel ratio; (6) Assign mat.uniforms.bloomTexture.value = bloomComposerRef.current.readBuffer.texture to wire the bloom result into the composite shader; (7) Run finalComposerRef.current.render() to produce the final output."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Configure BackgroundSphere with correct layers, renderOrder, and NaN-safe fragment shader",
+      "acceptanceCriteria": [
+        "BackgroundSphere is on layer 0 and renders before other scene objects (renderOrder -1000)",
+        "Fragment shader uses NaN-safe resolution normalization",
+        "Background sphere is visible on scene load without black screen artifacts"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Update the BackgroundSphere mesh component to include layers={0} and renderOrder={-1000} props. In the BackgroundSphere's fragment shader, replace any direct resolution division with the NaN-safe formula: vec2 p = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(max(resolution.x, 1.0), max(resolution.y, 1.0)); This prevents NaN artifacts when resolution values are zero or invalid and ensures the background sphere renders correctly on initial load."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Change Suspense fallback from null to opaque black background color",
+      "acceptanceCriteria": [
+        "Canvas background is opaque black during the Suspense loading phase",
+        "No transparent flash appears before 3D content loads"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CubeVisualization.tsx",
+          "operation": "modify",
+          "description": "Change the Suspense component's fallback prop from null to <color attach=\"background\" args={[\"#000000\"]} />. This ensures the canvas displays an opaque black background during the asset loading phase instead of showing transparency, eliminating any visual flash before the 3D scene initializes."
+        }
+      ]
+    }
+  ]
+}

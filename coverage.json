@@ -1,0 +1,103 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-03-02T20:27:20.932Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 7,
+    "implemented": 7,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "In CubeVisualization.tsx, configure the global renderer inside onCreated: set gl.toneMapping = THREE.NoToneMapping, gl.autoClear = false, gl.setClearColor(0x000000, 1.0), gl.setClearAlpha(1.0). Do NOT change gl.outputColorSpace and do NOT set gl.toneMappingExposure.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "In CubeVisualization.tsx, configure the UnrealBloomPass with intensity: 0.8, radius: 0.65, threshold: 0.1. Add luminanceSmoothing = 0.1 guarded by a feature check: if ('luminanceSmoothing' in bloomPass) { (bloomPass as any).luminanceSmoothing = 0.1; }",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "In CubeVisualization.tsx, set bloomComposer.renderToScreen = false and finalComposer.renderToScreen = true. Initialize bloomTexture as new THREE.Texture() to prevent startup crashes before the first bloom render.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "In CubeVisualization.tsx, replace the composite shader fragment with the full ACES + sharpening + glints implementation: use NaN-safe texel calculation (vec2 texel = 1.0 / max(resolution, vec2(1.0))), sharpen strength 0.15, glint threshold 2.5 and strength 3.0, toneMapACES function, and output gl_FragColor = vec4(mapped, 1.0). Remove HueSaturationPass from the EffectComposer chain. CompositePass must be the final pass in finalComposer.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "In CubeVisualization.tsx, implement a robust render loop in useFrame: guard all rendering inside if (sz.width > 0 && sz.height > 0). Inside: (1) renderer.clear(true, true, true), (2) set camera.layers.set(1) then run bloomComposerRef.current.render(), (3) set camera.layers.set(0) then camera.layers.enable(1), (4) update compositePass resolution uniform using sz.width * viewport.dpr and sz.height * viewport.dpr, (5) assign mat.uniforms.bloomTexture.value = bloomComposerRef.current.readBuffer.texture, (6) run finalComposerRef.current.render().",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "In CubeVisualization.tsx, configure the BackgroundSphere mesh with layers={0} and renderOrder={-1000}. In its fragment shader replace any bare resolution division with: vec2 p = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(max(resolution.x, 1.0), max(resolution.y, 1.0)); to prevent NaN artifacts.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "In CubeVisualization.tsx, change the Suspense fallback from null to <color attach=\"background\" args={[\"#000000\"]} /> so the canvas shows a black background during asset loading instead of transparency.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CubeVisualization.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/CubeVisualization.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

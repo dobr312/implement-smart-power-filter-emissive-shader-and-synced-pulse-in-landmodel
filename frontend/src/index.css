@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 270 50% 5%;
+    --foreground: 180 100% 95%;
+
+    --card: 270 40% 8%;
+    --card-foreground: 180 100% 92%;
+
+    --popover: 270 40% 8%;
+    --popover-foreground: 180 100% 92%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 270 50% 5%;
+
+    --secondary: 270 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 270 30% 15%;
+    --muted-foreground: 180 50% 70%;
+
+    --accent: 280 100% 70%;
+    --accent-foreground: 270 50% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 180 80% 40%;
+    --input: 270 40% 15%;
+    --ring: 180 100% 50%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 270 50% 5%;
+    --foreground: 180 100% 95%;
+
+    --card: 270 40% 8%;
+    --card-foreground: 180 100% 92%;
+
+    --popover: 270 40% 8%;
+    --popover-foreground: 180 100% 92%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 270 50% 5%;
+
+    --secondary: 270 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 270 30% 15%;
+    --muted-foreground: 180 50% 70%;
+
+    --accent: 280 100% 70%;
+    --accent-foreground: 270 50% 5%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 180 80% 40%;
+    --input: 270 40% 15%;
+    --ring: 180 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+    background: linear-gradient(135deg, #0a0015 0%, #1a0033 50%, #0d001a 100%);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+    color: oklch(0.95 0.15 180);
+  }
+  p, span, div {
+    color: oklch(0.92 0.08 180);
+  }
+}
+
+/* Force light text colors for maximum readability on dark backgrounds */
+* {
+  color: inherit;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.font-jetbrains {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Enhanced Glassmorphism effect with purple-black tint */
+.glassmorphism {
+  background: linear-gradient(135deg, rgba(10, 0, 30, 0.7) 0%, rgba(30, 0, 60, 0.5) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 255, 255, 0.15),
+              inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Neon glow effects */
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8),
+               0 0 20px rgba(0, 255, 255, 0.6),
+               0 0 30px rgba(0, 255, 255, 0.4),
+               0 0 40px rgba(0, 255, 255, 0.2);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.8),
+               0 0 20px rgba(0, 255, 65, 0.6),
+               0 0 30px rgba(0, 255, 65, 0.4),
+               0 0 40px rgba(0, 255, 65, 0.2);
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 10px rgba(153, 51, 255, 0.8),
+               0 0 20px rgba(153, 51, 255, 0.6),
+               0 0 30px rgba(153, 51, 255, 0.4),
+               0 0 40px rgba(153, 51, 255, 0.2);
+}
+
+.text-glow-yellow {
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8),
+               0 0 20px rgba(255, 215, 0, 0.6),
+               0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.box-glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4),
+              0 0 40px rgba(0, 255, 255, 0.2),
+              0 0 60px rgba(0, 255, 255, 0.1),
+              inset 0 0 20px rgba(0, 255, 255, 0.05);
+  border-color: rgba(0, 255, 255, 0.5);
+}
+
+.box-glow-green {
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.4),
+              0 0 40px rgba(0, 255, 65, 0.2),
+              0 0 60px rgba(0, 255, 65, 0.1),
+              inset 0 0 20px rgba(0, 255, 65, 0.05);
+  border-color: rgba(0, 255, 65, 0.5);
+}
+
+.box-glow-purple {
+  box-shadow: 0 0 20px rgba(153, 51, 255, 0.4),
+              0 0 40px rgba(153, 51, 255, 0.2),
+              0 0 60px rgba(153, 51, 255, 0.1),
+              inset 0 0 20px rgba(153, 51, 255, 0.05);
+  border-color: rgba(153, 51, 255, 0.5);
+}
+
+.box-glow-gold {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4),
+              0 0 40px rgba(255, 215, 0, 0.2),
+              0 0 60px rgba(255, 215, 0, 0.1),
+              inset 0 0 20px rgba(255, 215, 0, 0.05);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+/* Gradient button styles */
+.btn-gradient-cyan {
+  background: linear-gradient(135deg, #00ffff 0%, #0099ff 100%);
+  border: 2px solid rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-cyan:hover {
+  background: linear-gradient(135deg, #00ffff 0%, #00ccff 100%);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6),
+              0 0 60px rgba(0, 255, 255, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-gradient-purple {
+  background: linear-gradient(135deg, #9933ff 0%, #6600cc 100%);
+  border: 2px solid rgba(153, 51, 255, 0.5);
+  box-shadow: 0 0 20px rgba(153, 51, 255, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-purple:hover {
+  background: linear-gradient(135deg, #aa44ff 0%, #7700dd 100%);
+  box-shadow: 0 0 30px rgba(153, 51, 255, 0.6),
+              0 0 60px rgba(153, 51, 255, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-gradient-green {
+  background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
+  border: 2px solid rgba(0, 255, 65, 0.5);
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-green:hover {
+  background: linear-gradient(135deg, #00ff41 0%, #00dd38 100%);
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.6),
+              0 0 60px rgba(0, 255, 65, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Animation keyframes */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4),
+                0 0 40px rgba(0, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6),
+                0 0 60px rgba(0, 255, 255, 0.3),
+                0 0 90px rgba(0, 255, 255, 0.1);
+  }
+}
+
+@keyframes pulse-glow-purple {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(153, 51, 255, 0.4),
+                0 0 40px rgba(153, 51, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(153, 51, 255, 0.6),
+                0 0 60px rgba(153, 51, 255, 0.3),
+                0 0 90px rgba(153, 51, 255, 0.1);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow-purple {
+  animation: pulse-glow-purple 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scrollbar styling with cyberpunk theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 0, 30, 0.5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00ffff 0%, #9933ff 100%);
+  border-radius: 5px;
+  border: 2px solid rgba(10, 0, 30, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #00ffff 0%, #aa44ff 100%);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Cosmic background overlay */
+.cosmic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(153, 51, 255, 0.1) 0%, transparent 70%),
+              radial-gradient(ellipse at top left, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(ellipse at bottom right, rgba(0, 255, 65, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Neon border effect */
+.neon-border {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(10, 0, 30, 0.7), rgba(30, 0, 60, 0.5)) padding-box,
+              linear-gradient(135deg, #00ffff, #9933ff, #00ff41) border-box;
+}
+
+/* Holographic effect */
+.holographic {
+  background: linear-gradient(135deg, 
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(153, 51, 255, 0.1) 25%,
+    rgba(0, 255, 65, 0.1) 50%,
+    rgba(153, 51, 255, 0.1) 75%,
+    rgba(0, 255, 255, 0.1) 100%);
+  background-size: 200% 200%;
+  animation: holographic-shift 3s ease infinite;
+}
+
+@keyframes holographic-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ✅ FIX 1: 3D Cube Scene Container - ENFORCED min-height: 65vh, height: 100%, width: 100% */
+.cube-container {
+  min-height: 65vh !important;
+  height: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  touch-action: auto !important;
+  pointer-events: auto !important;
+}
+
+/* ✅ FIX 1: Canvas wrapper with explicit sizing - ENFORCED min-height: 65vh */
+.cybercube-canvas {
+  min-height: 65vh !important;
+  height: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  touch-action: auto !important;
+  pointer-events: auto !important;
+}
+
+/* ✅ FIX 1: Canvas element explicit sizing - CRITICAL for preventing collapse */
+.cube-container canvas,
+.cybercube-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  touch-action: auto !important;
+}
+
+/* ✅ FIX 1: Parent wrappers for Dashboard layout - ENFORCED position: relative, display: flex */
+.cube-container,
+.cybercube-canvas,
+.cube-container > div,
+.cybercube-canvas > div {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+

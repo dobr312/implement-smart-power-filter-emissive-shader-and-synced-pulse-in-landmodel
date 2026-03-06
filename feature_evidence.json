@@ -1,0 +1,152 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-in-cubevisualization-tsx-configure-the-global-renderer-inside-oncreated-set-gl-tonemapping-three-notonemapping-gl-autoclear-false-gl-setclearcolor-0x000000-1-0-gl-setclearalpha-1-0-do-not-change-gl-outputcolorspace-and-do-not-set-gl-tonemappingexposure",
+      "featureTitle": "In CubeVisualization.tsx, configure the global renderer inside onCreated: set gl.toneMapping = THREE.NoToneMapping, gl.autoClear = false, gl.setClearColor(0x000000, 1.0), gl.setClearAlpha(1.0). Do NOT change gl.outputColorSpace and do NOT set gl.toneMappingExposure.",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-configure-the-unrealbloompass-with-intensity-0-8-radius-0-65-threshold-0-1-add-luminancesmoothing-0-1-guarded-by-a-feature-check-if-luminancesmoothing-in-bloompass-bloompass-as-any-luminancesmoothing-0-1",
+      "featureTitle": "In CubeVisualization.tsx, configure the UnrealBloomPass with intensity: 0.8, radius: 0.65, threshold: 0.1. Add luminanceSmoothing = 0.1 guarded by a feature check: if ('luminanceSmoothing' in bloomPass) { (bloomPass as any).luminanceSmoothing = 0.1; }",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-set-bloomcomposer-rendertoscreen-false-and-finalcomposer-rendertoscreen-true-initialize-bloomtexture-as-new-three-texture-to-prevent-startup-crashes-before-the-first-bloom-render",
+      "featureTitle": "In CubeVisualization.tsx, set bloomComposer.renderToScreen = false and finalComposer.renderToScreen = true. Initialize bloomTexture as new THREE.Texture() to prevent startup crashes before the first bloom render.",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-replace-the-composite-shader-fragment-with-the-full-aces-sharpening-glints-implementation-use-nan-safe-texel-calculation-vec2-texel-1-0-max-resolution-vec2-1-0-sharpen-strength-0-15-glint-threshold-2-5-and-strength-3-0-tonemapaces-function-and-output-gl-fragcolor-vec4-mapped-1-0-remove-huesaturationpass-from-the-effectcomposer-chain-compositepass-must-be-the-final-pass-in-finalcomposer",
+      "featureTitle": "In CubeVisualization.tsx, replace the composite shader fragment with the full ACES + sharpening + glints implementation: use NaN-safe texel calculation (vec2 texel = 1.0 / max(resolution, vec2(1.0))), sharpen strength 0.15, glint threshold 2.5 and strength 3.0, toneMapACES function, and output gl_FragColor = vec4(mapped, 1.0). Remove HueSaturationPass from the EffectComposer chain. CompositePass must be the final pass in finalComposer.",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-implement-a-robust-render-loop-in-useframe-guard-all-rendering-inside-if-sz-width-0-sz-height-0-inside-1-renderer-clear-true-true-true-2-set-camera-layers-set-1-then-run-bloomcomposerref-current-render-3-set-camera-layers-set-0-then-camera-layers-enable-1-4-update-compositepass-resolution-uniform-using-sz-width-viewport-dpr-and-sz-height-viewport-dpr-5-assign-mat-uniforms-bloomtexture-value-bloomcomposerref-current-readbuffer-texture-6-run-finalcomposerref-current-render",
+      "featureTitle": "In CubeVisualization.tsx, implement a robust render loop in useFrame: guard all rendering inside if (sz.width > 0 && sz.height > 0). Inside: (1) renderer.clear(true, true, true), (2) set camera.layers.set(1) then run bloomComposerRef.current.render(), (3) set camera.layers.set(0) then camera.layers.enable(1), (4) update compositePass resolution uniform using sz.width * viewport.dpr and sz.height * viewport.dpr, (5) assign mat.uniforms.bloomTexture.value = bloomComposerRef.current.readBuffer.texture, (6) run finalComposerRef.current.render().",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-configure-the-backgroundsphere-mesh-with-layers-0-and-renderorder-1000-in-its-fragment-shader-replace-any-bare-resolution-division-with-vec2-p-gl-fragcoord-xy-2-0-resolution-xy-min-max-resolution-x-1-0-max-resolution-y-1-0-to-prevent-nan-artifacts",
+      "featureTitle": "In CubeVisualization.tsx, configure the BackgroundSphere mesh with layers={0} and renderOrder={-1000}. In its fragment shader replace any bare resolution division with: vec2 p = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(max(resolution.x, 1.0), max(resolution.y, 1.0)); to prevent NaN artifacts.",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-cubevisualization-tsx-change-the-suspense-fallback-from-null-to-color-attach-background-args-000000-so-the-canvas-shows-a-black-background-during-asset-loading-instead-of-transparency",
+      "featureTitle": "In CubeVisualization.tsx, change the Suspense fallback from null to <color attach=\"background\" args={[\"#000000\"]} /> so the canvas shows a black background during asset loading instead of transparency.",
+      "files": [
+        "frontend/src/components/CubeVisualization.tsx"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "http-outcalls@1.1.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
